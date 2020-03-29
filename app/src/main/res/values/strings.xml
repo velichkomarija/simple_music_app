@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SimpleMusicApp</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="enter">Enter</string>
+    <string name="registration">Registration</string>
+    <string name="request_error">Reqest error</string>
+    <string name="logo">Logo</string>
+    <string name="error_registration">Error to registrate</string>
+    <string name="name_hint">Full name</string>
+    <string name="password_again_hint">Enter password again</string>
+
+    <string name="response_code_204">Success registration</string>
+    <string name="response_code_400">Validation error</string>
+    <string name="response_code_400_alt">Error id</string>
+    <string name="response_code_404">Invalid album</string>
+    <string name="albums">Album</string>
+    <string name="response_code_401">Not authorized</string>
+    <string name="response_code_500">Internal error</string>
+    <string name="comments">Comments</string>
+    <string name="no_comments">No comments, add new first.</string>
+</resources>

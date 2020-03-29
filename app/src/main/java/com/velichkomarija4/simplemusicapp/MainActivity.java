@@ -1,11 +1,11 @@
 package com.velichkomarija4.simplemusicapp;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import android.os.Bundle;
 
 public abstract class MainActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public abstract class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() == 1) {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
             finish();
         } else {
             fragmentManager.popBackStack();

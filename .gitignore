@@ -16,5 +16,5 @@
 .idea/gradle.xml
 .idea/misc.xml
 .idea/runConfigurations.xml
-*.xml
 app/build/
+.idea/vcs.xml

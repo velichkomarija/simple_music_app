@@ -1,10 +1,127 @@
 package com.velichkomarija4.simplemusicapp.views.auth;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.velichkomarija4.simplemusicapp.ApiUtils;
+import com.velichkomarija4.simplemusicapp.R;
+import com.velichkomarija4.simplemusicapp.model.User;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class RegistrationFragment extends Fragment {
 
-    public static RegistrationFragment newInstance() {
+    private TextInputEditText emailEditText;
+    private TextInputEditText nameEditText;
+    private TextInputEditText passwordEditText;
+    private TextInputEditText againPasswordEditText;
+    private Button registrateButton;
+
+    static RegistrationFragment newInstance() {
         return new RegistrationFragment();
+    }
+
+    @SuppressLint("CheckResult")
+    private View.OnClickListener mOnRegistrationClickListener = view -> {
+
+        if (isEmailValid()) {
+            User user = new User(
+                    emailEditText.getText().toString(),
+                    nameEditText.getText().toString(),
+                    passwordEditText.getText().toString());
+
+            ApiUtils.getApi()
+                    .registration(user)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                                showMessage(R.string.response_code_204);
+                                getFragmentManager().popBackStack();
+
+                            }, throwable -> showMessage(R.string.request_error)
+                    );
+        }
+    };
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // do nothing
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // do nothing
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (emailEditText.getText().toString().isEmpty() ||
+                    passwordEditText.getText().toString().isEmpty() ||
+                    againPasswordEditText.getText().toString().isEmpty() ||
+                    nameEditText.getText().toString().isEmpty()) {
+                registrateButton.setEnabled(false);
+            } else {
+                if (passwordEditText.getText().toString()
+                        .equals(againPasswordEditText.getText().toString())) {
+                    passwordEditText.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                    againPasswordEditText.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                    registrateButton.setEnabled(true);
+                } else {
+                    passwordEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                    againPasswordEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                    registrateButton.setEnabled(false);
+                }
+            }
+        }
+    };
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+
+        emailEditText = view.findViewById(R.id.editText_email);
+        nameEditText = view.findViewById(R.id.editText_name);
+        passwordEditText = view.findViewById(R.id.editText_password);
+        againPasswordEditText = view.findViewById(R.id.editText_againPassword);
+        registrateButton = view.findViewById(R.id.button_register);
+
+        emailEditText.addTextChangedListener(textWatcher);
+        nameEditText.addTextChangedListener(textWatcher);
+        passwordEditText.addTextChangedListener(textWatcher);
+        againPasswordEditText.addTextChangedListener(textWatcher);
+        registrateButton.setOnClickListener(mOnRegistrationClickListener);
+        return view;
+    }
+
+    private boolean isEmailValid() {
+        String email = emailEditText.getText().toString();
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+            return false;
+        } else {
+            emailEditText.getBackground().invalidateSelf();
+            return true;
+        }
+    }
+
+    private void showMessage(@StringRes int string) {
+        Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
     }
 }
