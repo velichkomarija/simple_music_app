@@ -9,9 +9,4 @@ public class AuthActivity extends MainActivity {
     protected Fragment getFragment() {
         return AuthFragment.newInstance();
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 }

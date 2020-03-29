@@ -120,18 +120,24 @@ public class AuthFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_auth, container, false);
+        return inflater.inflate(R.layout.fragment_auth, container, false);
+    }
 
-        emailEditText = v.findViewById(R.id.editText_email);
-        passwordEditText = v.findViewById(R.id.editText_password);
-        enterButton = v.findViewById(R.id.button_enter);
-        TextView registerButton = v.findViewById(R.id.button_register);
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+        emailEditText = view.findViewById(R.id.editText_email);
+        passwordEditText = view.findViewById(R.id.editText_password);
+        enterButton = view.findViewById(R.id.button_enter);
+        TextView registerButton = view.findViewById(R.id.button_register);
 
         passwordEditText.addTextChangedListener(textWatcher);
         emailEditText.addTextChangedListener(textWatcher);
         enterButton.setOnClickListener(onEnterClickListener);
         registerButton.setOnClickListener(onRegisterClickListener);
-        return v;
+
     }
 
     private boolean isEmailValid() {

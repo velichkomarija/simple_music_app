@@ -19,4 +19,10 @@
     <string name="response_code_500">Internal error</string>
     <string name="comments">Comments</string>
     <string name="no_comments">No comments, add new first.</string>
+    <string name="error_string">Something went wrong. Try again.</string>
+    <string name="logout">Logout</string>
+    <string name="comments_update">Comments updated</string>
+    <string name="no_new_comments">There are not new comments</string>
+    <string name="no_internrt_connection">There is no internrt connection</string>
+    <string name="empty_message">Empty message</string>
 </resources>

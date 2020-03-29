@@ -6,4 +6,5 @@
     <color name="colorFont">#000000</color>
     <color name="colorBack">#FFFFFF</color>
     <color name="colorInvalidItem">#9097A1</color>
+    <color name="colorWarning">#a40616</color>
 </resources>

@@ -1,6 +1,6 @@
-package com.velichkomarija4.simplemusicapp;
+package com.velichkomarija4.simplemusicapp.views.albums;
 
-import com.velichkomarija4.simplemusicapp.views.albums.AlbumsFragment;
+import com.velichkomarija4.simplemusicapp.MainActivity;
 
 import androidx.fragment.app.Fragment;
 

@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,11 @@ import com.velichkomarija4.simplemusicapp.ApiUtils;
 import com.velichkomarija4.simplemusicapp.R;
 import com.velichkomarija4.simplemusicapp.model.User;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -51,9 +54,14 @@ public class RegistrationFragment extends Fragment {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(() -> {
                                 showMessage(R.string.response_code_204);
-                                getFragmentManager().popBackStack();
-
-                            }, throwable -> showMessage(R.string.request_error)
+                                FragmentManager fragmentManager = getFragmentManager();
+                                if (fragmentManager != null) {
+                                    fragmentManager.popBackStack();
+                                }
+                            }, throwable -> {
+                                showMessage(R.string.request_error);
+                                Log.d("ERORR", throwable.getMessage());
+                            }
                     );
         }
     };
@@ -93,9 +101,16 @@ public class RegistrationFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_registration, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         emailEditText = view.findViewById(R.id.editText_email);
         nameEditText = view.findViewById(R.id.editText_name);
         passwordEditText = view.findViewById(R.id.editText_password);
@@ -107,7 +122,6 @@ public class RegistrationFragment extends Fragment {
         passwordEditText.addTextChangedListener(textWatcher);
         againPasswordEditText.addTextChangedListener(textWatcher);
         registrateButton.setOnClickListener(mOnRegistrationClickListener);
-        return view;
     }
 
     private boolean isEmailValid() {
