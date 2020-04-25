@@ -60,7 +60,8 @@
                 android:textSize="12sp"
                 android:singleLine="true"
                 android:importantForAutofill="no"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="LabelFor" />
         </androidx.cardview.widget.CardView>
 
         <ImageButton
@@ -72,6 +73,7 @@
             android:scaleType="center"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/ic_send"
+            android:contentDescription="@string/enter" />
     </LinearLayout>
 </LinearLayout>

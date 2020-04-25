@@ -95,9 +95,7 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         ImageButton sendButton = view.findViewById(R.id.buttonSend);
 
-        sendButton.setOnClickListener(button -> {
-            sendComment();
-        });
+        sendButton.setOnClickListener(button -> sendComment());
 
         commentEditText.setOnKeyListener((view12, i, keyEvent) -> {
             if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
@@ -148,7 +146,9 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        albumId = getArguments().getInt(ALBUM_KEY);
+        if (getArguments() != null) {
+            albumId = getArguments().getInt(ALBUM_KEY);
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(commentActivity));
         recyclerView.setAdapter(commentsAdapter);
