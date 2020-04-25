@@ -20,7 +20,6 @@ import com.velichkomarija4.simplemusicapp.model.Comment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -43,7 +42,6 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private View errorView;
     private TextView noComments;
     private EditText commentEditText;
-    private ImageButton sendButton;
     private CommentActivity commentActivity;
     private int albumId;
     private boolean firstPlay = true;
@@ -94,9 +92,10 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         errorView = view.findViewById(R.id.errorView);
         noComments = view.findViewById(R.id.textView_noComment);
         commentEditText = view.findViewById(R.id.messageText);
-        sendButton = view.findViewById(R.id.buttonSend);
 
-        sendButton.setOnClickListener(view1 -> {
+        ImageButton sendButton = view.findViewById(R.id.buttonSend);
+
+        sendButton.setOnClickListener(button -> {
             sendComment();
         });
 
@@ -137,7 +136,6 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             comment.setName(commentActivity
                                     .getSharedPreferences("APP_PREFERENCES", Context.MODE_PRIVATE)
                                     .getString("USER_NAME", ""));
-                            Calendar calendar = Calendar.getInstance();
                             comment.setTime(android.text.format.DateFormat.format("yyyy-MM-dd'T'HH:mm:ssz",
                                     new java.util.Date()).toString());
                             getMusicDao().insertComment(comment);
@@ -145,7 +143,6 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         }
                 );
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -168,7 +165,7 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 })
                 .onErrorReturn(throwable -> {
                     if (ApiUtils.NETWORK_EXCEPTIONS.contains(throwable.getClass())) {
-                        commentActivity.runOnUiThread(() ->showMessage(R.string.no_internrt_connection));
+                        commentActivity.runOnUiThread(() -> showMessage(R.string.no_internrt_connection));
                         firstPlay = true;
                         return getMusicDao().getCommentsByAlbumId(albumId);
                     } else {
@@ -186,13 +183,14 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     recyclerView.setVisibility(View.VISIBLE);
                     List<Comment> commentList = getMusicDao().getCommentsByAlbumId(albumId);
                     if (commentList.size() != 0) {
+                        noComments.setVisibility(View.GONE);
                         boolean flagUpdate = commentsAdapter.addData(commentList, true);
                         if (!firstPlay) {
                             if (flagUpdate) {
                                 showMessage(R.string.comments_update);
                             } else {
                                 showMessage(R.string.no_new_comments);
-                                                   }
+                            }
                         }
                     } else {
                         recyclerView.setVisibility(View.GONE);
@@ -203,7 +201,6 @@ public class CommentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     recyclerView.setVisibility(View.GONE);
                     showMessage(R.string.no_comments);
                 });
-
     }
 
     private MusicDao getMusicDao() {

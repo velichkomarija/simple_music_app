@@ -111,10 +111,7 @@ public class ApiUtils {
                 return response.request().newBuilder().header("Authorization", credential).build();
             });
 
-            if (!BuildConfig.BUILD_TYPE.contains("release")) {
-                builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-            }
-
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
             client = builder.build();
         }
         return client;

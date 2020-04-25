@@ -6,8 +6,6 @@ import android.widget.TextView;
 import com.velichkomarija4.simplemusicapp.R;
 import com.velichkomarija4.simplemusicapp.model.Album;
 
-import java.text.SimpleDateFormat;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 class AlbumsHolder extends RecyclerView.ViewHolder {

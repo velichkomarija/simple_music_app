@@ -30,7 +30,7 @@ public abstract class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() == 0) {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
             finish();
         } else {
             fragmentManager.popBackStack();

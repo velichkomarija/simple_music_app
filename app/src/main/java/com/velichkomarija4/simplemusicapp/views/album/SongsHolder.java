@@ -16,7 +16,7 @@ class SongsHolder extends RecyclerView.ViewHolder {
     SongsHolder(View itemView) {
         super(itemView);
         mTitle = itemView.findViewById(R.id.textView_title);
-        mDuration = itemView.findViewById(R.id.textView_date);
+        mDuration = itemView.findViewById(R.id.textView_duration);
     }
 
     void bind(Song item) {

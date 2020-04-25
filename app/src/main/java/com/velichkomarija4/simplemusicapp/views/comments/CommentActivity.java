@@ -1,6 +1,9 @@
 package com.velichkomarija4.simplemusicapp.views.comments;
 
+import android.content.Intent;
+
 import com.velichkomarija4.simplemusicapp.MainActivity;
+import com.velichkomarija4.simplemusicapp.views.albums.AlbumsActivity;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,6 +19,8 @@ public class CommentActivity extends MainActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(this, AlbumsActivity.class);
+        startActivity(intent);
         finish();
     }
 }

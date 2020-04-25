@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/custom_margin"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/custom_margin"
-        android:layout_marginRight="@dimen/custom_margin">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView_name"
@@ -35,13 +34,13 @@
         android:id="@+id/textView_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/custom_margin"
-        android:layout_marginStart="@dimen/custom_margin"
-        android:minLines="2" />
+        android:paddingBottom="@dimen/custom_margin"
+        android:minLines="1"
+        android:maxLines="3"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimary" />
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>
