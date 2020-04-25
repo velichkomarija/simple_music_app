@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import com.velichkomarija4.simplemusicapp.R;
 import com.velichkomarija4.simplemusicapp.model.Album;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsHolder> {
         itemClickListener = onClickListener;
     }
 
+    @NotNull
     @Override
     public AlbumsHolder onCreateViewHolder(ViewGroup parent,
                                            int viewType) {

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.velichkomarija4.simplemusicapp.AlbumsActivity;
 import com.velichkomarija4.simplemusicapp.ApiUtils;
 import com.velichkomarija4.simplemusicapp.Application;
 import com.velichkomarija4.simplemusicapp.R;
@@ -36,7 +35,7 @@ public class AlbumsFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @NonNull
     private final AlbumsAdapter albumsAdapter = new AlbumsAdapter(album -> {
         FragmentManager fragmentManager = getFragmentManager();
-        if(fragmentManager !=null) {
+        if (fragmentManager != null) {
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, DetailAlbumFragment.newInstance(album))
                     .addToBackStack(DetailAlbumFragment.class.getSimpleName())

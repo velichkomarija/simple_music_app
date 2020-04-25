@@ -14,7 +14,10 @@ public class DataConverterFactory extends Converter.Factory {
 
     @Nullable
     @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+    public Converter<ResponseBody, ?> responseBodyConverter(Type type,
+                                                            Annotation[] annotations,
+                                                            Retrofit retrofit) {
+
         Type envelopedType = TypeToken.getParameterized(Data.class, type).getType();
 
         final Converter<ResponseBody, Data> delegate = retrofit.nextResponseBodyConverter(this, envelopedType, annotations);

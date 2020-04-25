@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
@@ -43,6 +44,7 @@ public class RegistrationFragment extends Fragment {
     private View.OnClickListener mOnRegistrationClickListener = view -> {
 
         if (isEmailValid()) {
+            // Проверка была заранее.
             User user = new User(
                     emailEditText.getText().toString(),
                     nameEditText.getText().toString(),
@@ -79,12 +81,15 @@ public class RegistrationFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (emailEditText.getText().toString().isEmpty() ||
-                    passwordEditText.getText().toString().isEmpty() ||
-                    againPasswordEditText.getText().toString().isEmpty() ||
-                    nameEditText.getText().toString().isEmpty()) {
+
+            if (TextUtils.isEmpty(emailEditText.getText()) ||
+                    TextUtils.isEmpty(passwordEditText.getText()) ||
+                    TextUtils.isEmpty(againPasswordEditText.getText()) ||
+                    TextUtils.isEmpty(nameEditText.getText())) {
+
                 registrateButton.setEnabled(false);
             } else {
+
                 if (passwordEditText.getText().toString()
                         .equals(againPasswordEditText.getText().toString())) {
                     passwordEditText.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
@@ -125,17 +130,22 @@ public class RegistrationFragment extends Fragment {
     }
 
     private boolean isEmailValid() {
-        String email = emailEditText.getText().toString();
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-            return false;
-        } else {
-            emailEditText.getBackground().invalidateSelf();
-            return true;
+
+        if (emailEditText.getText() != null) {
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString()).matches()) {
+                emailEditText.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                return false;
+            } else {
+                emailEditText.getBackground().invalidateSelf();
+                return true;
+            }
         }
+        return false;
     }
 
     private void showMessage(@StringRes int string) {
         Toast.makeText(getActivity(), string, Toast.LENGTH_LONG).show();
     }
+
 }

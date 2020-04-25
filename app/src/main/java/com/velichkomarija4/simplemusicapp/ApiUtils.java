@@ -3,23 +3,17 @@ package com.velichkomarija4.simplemusicapp;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.velichkomarija4.simplemusicapp.model.DataConverterFactory;
 
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import okhttp3.Authenticator;
 import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -44,14 +38,16 @@ public class ApiUtils {
 
     private static OkHttpClient client;
     private static Retrofit retrofit;
-    public static Gson sGson;
+    private static Gson sGson;
     private static AcademyApi api;
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
 
-    public static Retrofit getRetrofit() {
+    private static Retrofit getRetrofit() {
         if (sGson == null) {
-            sGson = new Gson();
+            sGson = new GsonBuilder()
+                    .setDateFormat("dd.MM.yyyy HH:mm:ss")
+                    .create();
         }
 
         if (retrofit == null) {
@@ -81,7 +77,7 @@ public class ApiUtils {
         return createService(serviceClass, null);
     }
 
-    public static <S> S createService(
+    private static <S> S createService(
             Class<S> serviceClass, final String authToken) {
         if (!TextUtils.isEmpty(authToken)) {
             AuthenticationInterceptor interceptor =
@@ -104,17 +100,17 @@ public class ApiUtils {
     }
 
 
-    public static OkHttpClient getBasicAuthClient(final String email, final String password, boolean createNewInstance) {
+    private static OkHttpClient getBasicAuthClient(final String email,
+                                                   final String password,
+                                                   boolean createNewInstance) {
         if (createNewInstance || client == null) {
             OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
-            builder.authenticator(new Authenticator() {
-                @Nullable
-                @Override
-                public Request authenticate(@NonNull Route route, @NonNull Response response) throws IOException {
-                    String credential = Credentials.basic(email, password);
-                    return response.request().newBuilder().header("Authorization", credential).build();
-                }
+
+            builder.authenticator((route, response) -> {
+                String credential = Credentials.basic(email, password);
+                return response.request().newBuilder().header("Authorization", credential).build();
             });
+
             if (!BuildConfig.BUILD_TYPE.contains("release")) {
                 builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
             }

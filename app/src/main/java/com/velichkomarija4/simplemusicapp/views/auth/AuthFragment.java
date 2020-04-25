@@ -20,10 +20,9 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.velichkomarija4.simplemusicapp.AcademyApi;
-import com.velichkomarija4.simplemusicapp.AlbumsActivity;
 import com.velichkomarija4.simplemusicapp.ApiUtils;
-import com.velichkomarija4.simplemusicapp.AuthActivity;
 import com.velichkomarija4.simplemusicapp.R;
+import com.velichkomarija4.simplemusicapp.views.albums.AlbumsActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,11 +39,11 @@ public class AuthFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private Button enterButton;
 
-
     @SuppressLint("CheckResult")
     private View.OnClickListener onEnterClickListener = view -> {
 
         if (isEmailValid()) {
+            //проверка ранее, если emailEditText или passwordEditText null, в блок не войдет
             AcademyApi loginService =
                     ApiUtils.createService(AcademyApi.class,
                             emailEditText.getText().toString(),
@@ -77,19 +76,15 @@ public class AuthFragment extends Fragment {
 
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            // do nothing
-        }
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {/* do nothing*/}
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            // do nothing
-        }
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {/* do nothing*/}
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (emailEditText.getText().toString().isEmpty() ||
-                    passwordEditText.getText().toString().isEmpty()) {
+            if (TextUtils.isEmpty(emailEditText.getText()) ||
+                    TextUtils.isEmpty(passwordEditText.getText())) {
                 enterButton.setEnabled(false);
             } else {
                 enterButton.setEnabled(true);
@@ -97,7 +92,7 @@ public class AuthFragment extends Fragment {
         }
     };
 
-    public static AuthFragment newInstance() {
+    static AuthFragment newInstance() {
         Bundle args = new Bundle();
 
         AuthFragment fragment = new AuthFragment();
@@ -141,22 +136,27 @@ public class AuthFragment extends Fragment {
     }
 
     private boolean isEmailValid() {
-        if (!Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText()).matches()) {
-            emailEditText.getBackground()
-                    .setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
-            if (TextUtils.isEmpty(passwordEditText.getText())) {
-                passwordEditText.getBackground()
+        if (emailEditText.getText() != null) {
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString()).matches()) {
+                emailEditText.getBackground()
                         .setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+
+                if (TextUtils.isEmpty(passwordEditText.getText())) {
+                    passwordEditText.getBackground()
+                            .setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                } else {
+                    passwordEditText.getBackground()
+                            .setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                }
+                return false;
             } else {
-                passwordEditText.getBackground()
+                emailEditText.getBackground()
                         .setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                return true;
             }
-            return false;
-        } else {
-            emailEditText.getBackground()
-                    .setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-            return true;
         }
+        return false;
     }
 
     private void showMessage(@StringRes int string) {

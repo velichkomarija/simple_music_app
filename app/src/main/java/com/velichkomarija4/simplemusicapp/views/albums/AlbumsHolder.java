@@ -6,11 +6,9 @@ import android.widget.TextView;
 import com.velichkomarija4.simplemusicapp.R;
 import com.velichkomarija4.simplemusicapp.model.Album;
 
-import androidx.recyclerview.widget.RecyclerView;
+import java.text.SimpleDateFormat;
 
-/**
- * @author Azret Magometov
- */
+import androidx.recyclerview.widget.RecyclerView;
 
 class AlbumsHolder extends RecyclerView.ViewHolder {
 
@@ -25,8 +23,10 @@ class AlbumsHolder extends RecyclerView.ViewHolder {
 
     void bind(Album item,
               AlbumsAdapter.OnItemClickListener onItemClickListener) {
+
         title.setText(item.getName());
-        releaseDate.setText(item.getReleaseDate());
+        releaseDate.setText(item.getReleaseDate().substring(0,10));
+
         if (onItemClickListener != null) {
             itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
         }

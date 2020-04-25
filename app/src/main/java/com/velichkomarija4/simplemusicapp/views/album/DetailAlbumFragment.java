@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.velichkomarija4.simplemusicapp.AlbumsActivity;
 import com.velichkomarija4.simplemusicapp.ApiUtils;
 import com.velichkomarija4.simplemusicapp.Application;
 import com.velichkomarija4.simplemusicapp.R;
@@ -20,6 +19,7 @@ import com.velichkomarija4.simplemusicapp.db.MusicDao;
 import com.velichkomarija4.simplemusicapp.model.Album;
 import com.velichkomarija4.simplemusicapp.model.AlbumSong;
 import com.velichkomarija4.simplemusicapp.model.Song;
+import com.velichkomarija4.simplemusicapp.views.albums.AlbumsActivity;
 import com.velichkomarija4.simplemusicapp.views.comments.CommentActivity;
 
 import org.jetbrains.annotations.NotNull;

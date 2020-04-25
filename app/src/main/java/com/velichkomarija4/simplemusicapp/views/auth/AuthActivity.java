@@ -1,6 +1,6 @@
-package com.velichkomarija4.simplemusicapp;
+package com.velichkomarija4.simplemusicapp.views.auth;
 
-import com.velichkomarija4.simplemusicapp.views.auth.AuthFragment;
+import com.velichkomarija4.simplemusicapp.MainActivity;
 
 import androidx.fragment.app.Fragment;
 

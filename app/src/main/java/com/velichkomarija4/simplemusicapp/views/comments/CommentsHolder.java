@@ -6,18 +6,14 @@ import android.widget.TextView;
 import com.velichkomarija4.simplemusicapp.R;
 import com.velichkomarija4.simplemusicapp.model.Comment;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 class CommentsHolder extends RecyclerView.ViewHolder {
-
-    private final String VAR_1_FORMAT = "yyyy-MM-dd";
-    private final String VAR_2_FORMAT = "HH:mm:ss";
-    private final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ssz";
 
     private TextView mName;
     private TextView mTime;
@@ -35,7 +31,8 @@ class CommentsHolder extends RecyclerView.ViewHolder {
         mMsg.setText(item.getMessage());
         String time = item.getTime();
 
-        DateFormat formatter = new SimpleDateFormat(OLD_FORMAT);
+        String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ssz";
+        SimpleDateFormat formatter = new SimpleDateFormat(OLD_FORMAT, Locale.getDefault());
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR, -24);
         Date now = cal.getTime();
@@ -48,12 +45,16 @@ class CommentsHolder extends RecyclerView.ViewHolder {
                 e.printStackTrace();
             }
 
-            if (d.after(now)) {
-                ((SimpleDateFormat) formatter).applyPattern(VAR_2_FORMAT);
-            } else {
-                ((SimpleDateFormat) formatter).applyPattern(VAR_1_FORMAT);
+            if (d != null) {
+                if (d.after(now)) {
+                    String VAR_2_FORMAT = "HH:mm:ss";
+                    formatter.applyPattern(VAR_2_FORMAT);
+                } else {
+                    String VAR_1_FORMAT = "yyyy-MM-dd";
+                    formatter.applyPattern(VAR_1_FORMAT);
+                }
+                time = formatter.format(d);
             }
-            time = formatter.format(d);
         } else {
             time = "";
         }
